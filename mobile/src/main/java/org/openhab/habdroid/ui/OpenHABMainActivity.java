@@ -223,6 +223,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+
         // Set non-persistent HABDroid version preference to current version from application package
         try {
             Log.d(TAG, "App version = " + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
@@ -241,6 +243,24 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
         // Set the theme to one from preferences
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+
+        //  Create a new boolean and preference and set it to true
+        boolean isFirstStart = mSettings.getBoolean("firstStart", true);
+
+        //  If the activity has never started before...
+        if (isFirstStart) {
+
+            //  Launch app intro
+            final Intent i = new Intent(OpenHABMainActivity.this, IntroActivity.class);
+
+            runOnUiThread(new Runnable() {
+                @Override public void run() {
+                    startActivity(i);
+                }
+            });
+
+            sharedPrefs.edit().putBoolean("firstStart", false).apply();
+        }
 
         // Disable screen timeout if set in preferences
         if (mSettings.getBoolean(Constants.PREFERENCE_SCREENTIMEROFF, false)) {

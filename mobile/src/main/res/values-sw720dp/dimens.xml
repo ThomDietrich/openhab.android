@@ -1,0 +1,11 @@
+<resources>
+
+    <!--
+         Customize dimensions originally defined in res/values/dimens.xml (such as
+         screen margins) for sw720dp devices (e.g. 10" tablets) here.
+    -->
+
+    <dimen name="intro_text1">56sp</dimen>
+    <dimen name="intro_text2">36sp</dimen>
+
+</resources>

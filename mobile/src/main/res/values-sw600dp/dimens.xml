@@ -5,4 +5,7 @@
          screen margins) for sw600dp devices (e.g. 7" tablets) here.
     -->
 
+    <dimen name="intro_text1">42sp</dimen>
+    <dimen name="intro_text2">27sp</dimen>
+
 </resources>

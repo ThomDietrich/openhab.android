@@ -10,4 +10,6 @@
     <dimen name="widgetlist_item_left_margin">0dp</dimen>
     <dimen name="widgetlist_item_right_margin">0dp</dimen>
     <dimen name="widget_margin">0dp</dimen>
+    <dimen name="intro_text1">28sp</dimen>
+    <dimen name="intro_text2">18sp</dimen>
 </resources>
