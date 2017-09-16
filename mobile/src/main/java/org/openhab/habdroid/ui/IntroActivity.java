@@ -20,6 +20,7 @@ public class IntroActivity extends AppIntro {
         // AppIntro will automatically generate the dots indicator and buttons.
         addSlide(SampleSlide.newInstance(R.layout.intro_slide_1));
         addSlide(SampleSlide.newInstance(R.layout.intro_slide_2));
+        addSlide(SampleSlide.newInstance(R.layout.intro_slide_3));
         // Override bar/separator color.
         setBarColor(Color.parseColor("#BF360C"));
         setSeparatorColor(Color.parseColor("#BF360C"));
