@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -77,62 +78,69 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mCtx);
 //        mCtx.registerReceiver(mConnectivityChangeReceiver,
 //                new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-        // If demo mode is on, just go for demo server base URL ignoring other settings
-        // Get current network information
-        ConnectivityManager connectivityManager = (ConnectivityManager)mCtx.getSystemService(
-                Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        if (activeNetworkInfo != null) {
-            if (settings.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
-                mOpenHABUrl = mCtx.getString(R.string.openhab_demo_url);
-                Log.d(TAG, "Demo mode, url = " + mOpenHABUrl);
-                openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_demo_mode));
-                return;
-            } else {
-                // If we are on a mobile network go directly to remote URL from settings
-                if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
-                    mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_ALTURL, ""));
-                    // If remote URL is configured
-                    if (mOpenHABUrl.length() > 0) {
-                        Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
-                        openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_rem_url));
-                    } else {
-                        openHABError(mCtx.getString(R.string.error_no_url));
-                    }
-                // Else if we are on Wifi or Ethernet network
-                } else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI
-                        || activeNetworkInfo.getType() == ConnectivityManager.TYPE_ETHERNET) {
-                    // See if we have a local URL configured in settings
-                    mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_URL, ""));
-                    // If local URL is configured
-                    if (mOpenHABUrl.length() > 0) {
-                        // Check if configured local URL is reachable
-                        if (checkUrlReachability(mOpenHABUrl)) {
-                            Log.d(TAG, "Connecting to local URL = " + mOpenHABUrl);
-                            openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_url));
-                            return;
-                        }
-                    }
-                    // If local URL is not reachable or not configured, try with remote URL
-                    mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_ALTURL, ""));
-                    if (mOpenHABUrl.length() > 0) {
-                        Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
-                        openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_rem_url));
-                    } else {
-                        // if not URL is configured, start service discovery
-                        mServiceResolver = new AsyncServiceResolver(mCtx, this, mOpenHABServiceType);
-                        bonjourDiscoveryStarted();
-                        mServiceResolver.start();
-                    }
-                // Else we treat other networks types as unsupported
+        // Retry 10 times and wait for 0.5 seconds
+        int retries = 0;
+        while (retries<10) {
+            // If demo mode is on, just go for demo server base URL ignoring other settings
+            // Get current network information
+            ConnectivityManager connectivityManager = (ConnectivityManager)mCtx.getSystemService(
+                    Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            if (activeNetworkInfo != null) {
+                if (settings.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
+                    mOpenHABUrl = mCtx.getString(R.string.openhab_demo_url);
+                    Log.d(TAG, "Demo mode, url = " + mOpenHABUrl);
+                    openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_demo_mode));
+                    return;
                 } else {
-                    Log.e(TAG, "Network type (" + activeNetworkInfo.getTypeName() + ") is unsupported");
-                    openHABError("Network type (" + activeNetworkInfo.getTypeName() + ") is unsupported");
+                    // If we are on a mobile network go directly to remote URL from settings
+                    if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+                        mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_ALTURL, ""));
+                        // If remote URL is configured
+                        if (mOpenHABUrl.length() > 0) {
+                            Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
+                            openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_rem_url));
+                        } else {
+                            openHABError(mCtx.getString(R.string.error_no_url));
+                        }
+                        // Else if we are on Wifi or Ethernet network
+                    } else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI
+                            || activeNetworkInfo.getType() == ConnectivityManager.TYPE_ETHERNET) {
+                        // See if we have a local URL configured in settings
+                        mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_URL, ""));
+                        // If local URL is configured
+                        if (mOpenHABUrl.length() > 0) {
+                            // Check if configured local URL is reachable
+                            if (checkUrlReachability(mOpenHABUrl)) {
+                                Log.d(TAG, "Connecting to local URL = " + mOpenHABUrl);
+                                openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_url));
+                                return;
+                            }
+                        }
+                        // If local URL is not reachable or not configured, try with remote URL
+                        mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_ALTURL, ""));
+                        if (mOpenHABUrl.length() > 0) {
+                            Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
+                            openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_rem_url));
+                        } else {
+                            // if not URL is configured, start service discovery
+                            mServiceResolver = new AsyncServiceResolver(mCtx, this, mOpenHABServiceType);
+                            bonjourDiscoveryStarted();
+                            mServiceResolver.start();
+                        }
+                        // Else we treat other networks types as unsupported
+                    } else {
+                        Log.e(TAG, "Network type (" + activeNetworkInfo.getTypeName() + ") is unsupported");
+                        openHABError("Network type (" + activeNetworkInfo.getTypeName() + ") is unsupported");
+                    }
                 }
+                break;
+            } else {
+                Log.e(TAG, "Network is not available");
+                openHABError(mCtx.getString(R.string.error_network_not_available));
+                SystemClock.sleep(500);
+                retries++;
             }
-        } else {
-            Log.e(TAG, "Network is not available");
-            openHABError(mCtx.getString(R.string.error_network_not_available));
         }
     }
 
