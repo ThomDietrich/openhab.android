@@ -491,15 +491,18 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		OpenHABItem chartItem = openHABWidget.getItem();
     		Random random = new Random();
     		String chartUrl = "";
+            final boolean showLegend;
     		if (chartItem != null) {
 	    		if (chartItem.getType().equals("GroupItem") || chartItem.getType().equals("Group")) {
 	    			chartUrl = openHABBaseUrl + "chart?groups=" + chartItem.getName() +
 	    					"&period=" + openHABWidget.getPeriod() + "&random=" +
 	    					String.valueOf(random.nextInt());
+                    showLegend = true;
 	    		} else {
                     chartUrl = openHABBaseUrl + "chart?items=" + chartItem.getName() +
                             "&period=" + openHABWidget.getPeriod() + "&random=" +
                             String.valueOf(random.nextInt());
+                    showLegend = false;
                 }
                 if (openHABWidget.getService() != null && openHABWidget.getService().length() > 0) {
                     chartUrl += "&service=" + openHABWidget.getService();
@@ -519,9 +522,14 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 
                 SharedPreferences settings =
                         PreferenceManager.getDefaultSharedPreferences(getContext());
-                String showLegend = settings.getString(Constants.PREFERENCE_CHART_SHOW_LEGEND, "");
-                if(!showLegend.equals("auto")) {
-                    chartUrl += "&legend=" + showLegend;
+                String showLegendSetting = settings.getString(Constants.PREFERENCE_CHART_SHOW_LEGEND, "");
+                if(!showLegendSetting.equals("auto")) {
+                    chartUrl += "&legend=" + showLegendSetting;
+                    if(showLegendSetting.equals(true)) {
+                        showLegend = true;
+                    } else {
+                        showLegend = false;
+                    }
                 }
             }
     		Log.d(TAG, "Chart url = " + chartUrl);
@@ -537,6 +545,15 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     			refreshImageList.add(chartImage);
     		}
     		Log.d(TAG, "chart size = " + chartLayoutParams.width + " " + chartLayoutParams.height);
+
+            SwitchCompat chartimage = (SwitchCompat)widgetView.findViewById(R.id.chartimage);
+            chartimage.setOnTouchListener(new OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent motionEvent) {
+                    SwitchCompat chartimage = (SwitchCompat)v;
+                    showLegend = !showLegend;
+                }
+            });
+
     	break;
     	case TYPE_VIDEO:
             VideoView videoVideo = (VideoView)widgetView.findViewById(R.id.videovideo);
