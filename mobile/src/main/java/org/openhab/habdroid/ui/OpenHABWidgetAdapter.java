@@ -551,6 +551,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                     videoWidgetList.add(videoVideo);
                 // Start video
                 if (!videoVideo.isPlaying()) {
+                    Log.d(TAG, "URL: " + openHABWidget.getUrl());
                     videoVideo.setVideoURI(Uri.parse(openHABWidget.getUrl()));
                     videoVideo.start();
                 }
@@ -744,7 +745,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
             return TYPE_CHART;
         } else if (openHABWidget.getType().equals("Video")) {
             if (openHABWidget.getEncoding() != null) {
-                if (openHABWidget.getEncoding().equals("mjpeg")) {
+                if (openHABWidget.getEncoding().toLowerCase().equals("mjpeg")) {
                     return TYPE_VIDEO_MJPEG;
                 } else {
                     return TYPE_VIDEO;
