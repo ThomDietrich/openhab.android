@@ -489,17 +489,16 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 chartImage.setImageDrawable(null);
                 OpenHABItem chartItem = openHABWidget.getItem();
                 Random random = new Random();
-                String chartUrl = "";
+                String chartUrl;
                 if (chartItem != null) {
                     if (chartItem.getType().equals("GroupItem") || chartItem.getType().equals("Group")) {
-                        chartUrl = openHABBaseUrl + "chart?groups=" + chartItem.getName() +
-                                "&period=" + openHABWidget.getPeriod() + "&random=" +
-                                String.valueOf(random.nextInt());
+                        chartUrl = openHABBaseUrl + "chart?groups=" + chartItem.getName();
+
                     } else {
-                        chartUrl = openHABBaseUrl + "chart?items=" + chartItem.getName() +
-                                "&period=" + openHABWidget.getPeriod() + "&random=" +
-                                String.valueOf(random.nextInt());
+                        chartUrl = openHABBaseUrl + "chart?items=" + chartItem.getName();
                     }
+                    chartUrl += "&period=" + openHABWidget.getPeriod() + "&random=" +
+                            String.valueOf(random.nextInt());
                     if (openHABWidget.getService() != null && openHABWidget.getService().length() > 0) {
                         chartUrl += "&service=" + openHABWidget.getService();
                     }
