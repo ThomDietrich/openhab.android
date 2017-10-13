@@ -524,7 +524,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                     }
                     Log.d(TAG, "Chart url = " + chartUrl);
                     ViewGroup.LayoutParams chartLayoutParams = chartImage.getLayoutParams();
-                    chartLayoutParams.height = (screenWidth / 2);
+                    chartLayoutParams.height = screenWidth / 2;
                     chartImage.setLayoutParams(chartLayoutParams);
                     chartUrl += "&w=" + String.valueOf(screenWidth);
                     chartUrl += "&h=" + String.valueOf(screenWidth / 2);
