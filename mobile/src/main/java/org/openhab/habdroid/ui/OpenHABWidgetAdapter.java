@@ -490,7 +490,10 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 OpenHABItem chartItem = openHABWidget.getItem();
                 Random random = new Random();
                 String chartUrl;
-                if (chartItem != null) {
+                if (chartItem == null) {
+                    Log.e(TAG, "Chart item is null");
+                    break;
+                } else {
                     if (chartItem.getType().equals("GroupItem") || chartItem.getType().equals("Group")) {
                         chartUrl = openHABBaseUrl + "chart?groups=" + chartItem.getName();
 
@@ -532,8 +535,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                         refreshImageList.add(chartImage);
                     }
                     Log.d(TAG, "chart size = " + chartLayoutParams.width + " " + chartLayoutParams.height);
-                } else {
-                    Log.e(TAG, "Chart item is null");
                 }
                 break;
             case TYPE_VIDEO:
