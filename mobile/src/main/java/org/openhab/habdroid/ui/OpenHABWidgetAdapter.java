@@ -524,10 +524,10 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                     }
                     Log.d(TAG, "Chart url = " + chartUrl);
                     ViewGroup.LayoutParams chartLayoutParams = chartImage.getLayoutParams();
-                    chartLayoutParams.height = screenWidth / 2;
+                    chartLayoutParams.height = screenWidth >> 1;
                     chartImage.setLayoutParams(chartLayoutParams);
                     chartUrl += "&w=" + String.valueOf(screenWidth);
-                    chartUrl += "&h=" + String.valueOf(screenWidth / 2);
+                    chartUrl += "&h=" + String.valueOf(screenWidth >> 1);
                     chartImage.setImageUrl(chartUrl, false, openHABUsername, openHABPassword);
                     // TODO: This is quite dirty fix to make charts look full screen width on all displays
                     if (openHABWidget.getRefresh() > 0) {
