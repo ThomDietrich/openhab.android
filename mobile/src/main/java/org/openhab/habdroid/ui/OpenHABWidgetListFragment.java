@@ -119,6 +119,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
             openHABUsername = getArguments().getString("openHABUsername");
             openHABPassword = getArguments().getString("openHABPassword");
             mPosition = getArguments().getInt("position");
+            widthRatio = getArguments().getFloat("widthRatio");
         }
     }
 
@@ -146,7 +147,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
         openHABWidgetAdapter.setOpenHABPassword(openHABPassword);
         openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
         openHABWidgetAdapter.setAsyncHttpClient(mAsyncHttpClient);
-        openHABWidgetAdapter.setWidthRatio(0.66f);
+        openHABWidgetAdapter.setWidthRatio(widthRatio);
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
@@ -284,7 +285,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
     }
 
     public static OpenHABWidgetListFragment withPage(String pageUrl, String baseUrl, String rootUrl,
-                                                     String username, String password, int position) {
+                                                     String username, String password, int position,
+                                                     float widthRatio) {
         Log.d(TAG, "withPage(" + pageUrl + ")");
         OpenHABWidgetListFragment fragment = new OpenHABWidgetListFragment();
         Bundle args = new Bundle();
@@ -294,6 +296,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
         args.putString("openHABUsername", username);
         args.putString("openHABPassword", password);
         args.putInt("position", position);
+        args.putFloat("widthRatio", widthRatio);
         fragment.setArguments(args);
         return fragment;
     }
