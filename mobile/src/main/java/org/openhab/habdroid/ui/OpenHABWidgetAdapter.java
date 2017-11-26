@@ -97,6 +97,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     private ArrayList<MySmartImageView> refreshImageList;
     private ArrayList<MjpegStreamer> mjpegWidgetList;
     private MyAsyncHttpClient mAsyncHttpClient;
+    private float widthRatio;
 
     public OpenHABWidgetAdapter(Context context, int resource,
                                 List<OpenHABWidget> objects) {
@@ -118,6 +119,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         String[] splitString;
         OpenHABWidget openHABWidget = getItem(position);
         int screenWidth = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
+        float listWidth = screenWidth * widthRatio;
         switch (this.getItemViewType(position)) {
             case TYPE_FRAME:
                 widgetLayout = R.layout.openhabwidgetlist_frameitem;
@@ -540,7 +542,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                     }
                     Log.d(TAG, "Chart url = " + chartUrl);
                     ViewGroup.LayoutParams chartLayoutParams = chartImage.getLayoutParams();
-                    chartLayoutParams.height = (int) (screenWidth / 2);
+                    chartLayoutParams.height = (int) (listWidth / 2);
                     chartImage.setLayoutParams(chartLayoutParams);
                     chartUrl += "&w=" + String.valueOf(screenWidth);
                     chartUrl += "&h=" + String.valueOf(screenWidth / 2);
@@ -885,6 +887,14 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         if (openHABWidget.getType().equals("Frame"))
             return false;
         return true;
+    }
+
+    public void setWidthRatio(float widthRatio) {
+        this.widthRatio = widthRatio;
+    }
+
+    public float getWidthRatio() {
+        return widthRatio;
     }
 
     class MyImageFromItem implements SmartImage {

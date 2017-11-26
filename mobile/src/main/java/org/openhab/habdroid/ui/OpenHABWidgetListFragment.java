@@ -69,7 +69,6 @@ public class OpenHABWidgetListFragment extends ListFragment {
     // List adapter for list view of openHAB widgets
     private OpenHABWidgetAdapter openHABWidgetAdapter;
     // Url of current sitemap page displayed
-    // Url of current sitemap page displayed
     private String displayPageUrl;
     // sitemap root url
     private String sitemapRootUrl = "";
@@ -104,6 +103,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
     private Runnable networkRunnable;
     // keeps track of current request to cancel it in onPause
     private Call mRequestHandle;
+    // width
+    public float widthRatio = 1f;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -145,6 +146,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
         openHABWidgetAdapter.setOpenHABPassword(openHABPassword);
         openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
         openHABWidgetAdapter.setAsyncHttpClient(mAsyncHttpClient);
+        openHABWidgetAdapter.setWidthRatio(0.66f);
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
@@ -556,6 +558,14 @@ public class OpenHABWidgetListFragment extends ListFragment {
 
     public int getPosition() {
         return mPosition;
+    }
+
+    public float getWidthRatio() {
+        return getWidthRatio();
+    }
+
+    public void setWidthRatio(float widthRatio) {
+        this.widthRatio = widthRatio;
     }
 
 }
