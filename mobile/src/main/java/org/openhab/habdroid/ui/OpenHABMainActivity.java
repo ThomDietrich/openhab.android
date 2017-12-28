@@ -1271,7 +1271,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         );
         if (getNotificationSettings() != null) {
             mDrawerItemList.add(OpenHABDrawerItem.menuItem(
-                    "Notifications",
+                    getString(R.string.app_notifications),
                     notificationDrawable,
                     DRAWER_NOTIFICATIONS
             ));
