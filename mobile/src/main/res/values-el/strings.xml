@@ -47,7 +47,7 @@
     <string name="info_demo_mode_short">Εκτέλεση σε κατάσταση παρουσίασης (demo)</string>
     <string name="info_conn_url">Σύνδεση στην τοπική διεύθυνση</string>
     <string name="info_conn_rem_url">Σύνδεση στην απομακρυσμένη διεύθυνση</string>
-    <string name="info_discovery">Ανεύρεση openHAB. Παρακαλώ περιμένετε...</string>
+    <string name="info_discovery">Ανεύρεση openHAB. Παρακαλώ περιμένετε…</string>
     <string name="error_no_url">Παρακαλώ ελέξτε ότι το openHAB τρέχει ή ρυθμίστε σωστά την διεύθυνση ή απομακρυσμένης διεύθυνσης του openHAB.</string>
     <string name="error_empty_sitemap_list">Το openHAB επέστρεψε μια άδεια λίστα sitemap</string>
     <string name="error_network_not_available">Το δίκτυο δεν είναι διαθέσιμο</string>
