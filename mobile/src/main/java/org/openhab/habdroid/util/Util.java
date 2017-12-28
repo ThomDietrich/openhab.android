@@ -10,7 +10,6 @@
 package org.openhab.habdroid.util;
 
 import android.app.Activity;
-import android.content.Context;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
