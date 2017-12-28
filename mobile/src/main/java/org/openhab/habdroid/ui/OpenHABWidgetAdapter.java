@@ -974,5 +974,5 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
             byte[] data = Base64.decode(itemState.substring(itemState.indexOf(",") + 1), Base64.DEFAULT);
             return BitmapFactory.decodeByteArray(data, 0, data.length);
         }
-    };
+    }
 }
