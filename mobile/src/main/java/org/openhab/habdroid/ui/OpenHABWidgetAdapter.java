@@ -9,6 +9,7 @@
 
 package org.openhab.habdroid.ui;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -122,6 +123,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         a.recycle();
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @SuppressWarnings("deprecation")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
