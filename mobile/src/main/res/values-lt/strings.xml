@@ -46,7 +46,7 @@
     <string name="error_empty_sitemap_list">openHAB grąžino tuščią vietos išplanavimų sąrašą</string>
     <string name="error_network_not_available">Tinklas nepasiekiamas</string>
     <string name="error_no_uuid">Nepavyko gauti openHAB UUID, ryšys nutrauktas</string>
-    <string name="erorr_invalid_url">Prašome įvesti adresą \'protocol://host:port/\' pavidalu</string>
+    <string name="erorr_invalid_url">Prašome įvesti adresą \‘protocol://host:port/\’ pavidalu</string>
     <string name="error_connection_failed">Nepavyko prisijungti prie serverio</string>
     <string name="error_connection_sslhandshake_failed">Nepavyko užmegzti SSL ryšio - gal jums reikia galiojančio kliento sertifikato</string>
     <string name="title_activity_openhabwritetag">Rašyti NFC žymą</string>
@@ -100,7 +100,7 @@
     <string name="theme_name_basic_ui_dark">Paprastas UI (tamsus)</string>
     <string name="error_couldnt_determine_openhab_url">Nepavyko nustatyti openHAB URL</string>
     <string name="error_network_type_unsupported">Tinklo tipas (%s) nepalaikomas</string>
-    <string name="error_unable_to_resolve_hostname">Nepavyko \"išrišti\" hostname</string>
+    <string name="error_unable_to_resolve_hostname">Nepavyko \“išrišti\” hostname</string>
     <string name="info_demo_mode_short">Veikia demo režimu</string>
     <string name="intro_themes">Temos</string>
     <string name="mainmenu_openhab_voice_recognition">Balso atpažinimas</string>
