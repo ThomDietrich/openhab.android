@@ -1,5 +1,5 @@
 #X-Generator: crowdin.com
-intro='openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation'
+intro='openHAB - "Stärkung der smart-Home" - Hersteller und Technologie Agnostiker öffnen Sie Quelle-home-automation'
 
 whatis='openHAB is a Java-based open-source home automation platform that integrates and combines a vast range of different smart home systems and technologies into one single solution.'
 rules='On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.'
